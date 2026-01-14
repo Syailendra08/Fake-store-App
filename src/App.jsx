@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import BannerComp from "./components/BannerComp";
 import CardList from "./components/CardList";
 import { Button } from "flowbite-react";
@@ -7,9 +7,52 @@ import { Link } from "react-router-dom";
 
 
  function App() {
- const[categories, setCategories] =useState(['a', 'b', 'c','d']);
- const[products, setProducts] = useState(['a', 'b', 'c','d']);
+ const[categories, setCategories] =useState([]);
+ const[products, setProducts] = useState([]);
+ const[loading, setLoading] = useState(true);
 
+ async function getData() {
+  const url = "https://api.escuelajs.co/api/v1/categories";
+  try {
+const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`Response status: ${response.status}`);
+    }
+
+    const result = await response.json();
+    setCategories(result.slice(0,4));
+
+  } catch(error) {
+    console.error(error.message);
+
+
+  }
+
+ }
+
+  async function getProducts() {
+  const url = "https://api.escuelajs.co/api/v1/products";
+  try {
+const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`Response status: ${response.status}`);
+    }
+
+    const result = await response.json();
+    setProducts(result.slice(0,4));
+    setLoading (false);
+
+  } catch(error) {
+    console.error(error.message);
+
+
+  }
+
+ }
+useEffect(() => {
+  getData();
+  getProducts();
+}, []);
   return (
     <>
    
