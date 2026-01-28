@@ -3,6 +3,7 @@ import BannerComp from "./components/BannerComp";
 import CardList from "./components/CardList";
 import { Button } from "flowbite-react";
 import { Link } from "react-router-dom";
+import { Spinner } from "flowbite-react";
  
 
 
@@ -53,6 +54,15 @@ useEffect(() => {
   getData();
   getProducts();
 }, []);
+
+if (loading) {
+  return (
+    <div className="flex justify-center mt-90" size="s">
+      <Spinner aria-label="Default status example" />
+      Sedang mengambil data...
+    </div>
+  )
+}
   return (
     <>
    
